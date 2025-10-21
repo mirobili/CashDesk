@@ -1,0 +1,24 @@
+C:\Users\Home>curl -X GET "http://localhost:8080/api/v1/cash-balance?cashierName=MARTINA" -H "FIB-X-AUTH: f9Uie8nNf112hx8s"
+{"cashierName":"MARTINA","balances":{"EUR":2000,"BGN":1500},"denominations":{"EUR":{"50":20,"100":10},"BGN":{"50":20,"10":50}},"timestamp":"2025-10-19T15:15:43.2711411"}
+
+
+miro@srv1:~/test/composer-projects/qr2$ curl -X GET "http://192.168.0.103:8080/api/v1/cash-bal
+ance?cashierName=MARTINA" -H "FIB-X-AUTH: f9Uie8nNf112hx8s"
+{"cashierName":"MARTINA","balances":{"EUR":2000,"BGN":1500},"denominations":{"EUR":{"50":20,"100":10},"BGN":{"50":20,"10":50}},"timestamp":"2025-10-19T15:16:43.7017968"}miro@srv1:
+
+
+
+
+curl -X POST "http://localhost:8080/api/v1/cash-operations" \
+  -H "Content-Type: application/json" \
+  -H "FIB-X-AUTH: f9Uie8nNf112hx8s" \
+  -d '{
+    "cashierName": "MARTINA",
+    "amount": 1000,
+    "currency": "BGN",
+    "type": "DEPOSIT",
+    "denominations": {
+      "50": 10,
+      "20": 25
+    }
+  }'

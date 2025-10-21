@@ -1,0 +1,60 @@
+Controllers
+DTOs
+
+Services
+    CashBalanceService
+    CashOperationService
+    TODO TransactionService
+
+    CashDeskService
+       TODO  DESK_OPEN
+       TODO  LOAD
+        DEPOSIT
+        WITHDRAW
+       TODO RETURN_TO_VAULT
+       TODO DESC_CLOSE
+    CurrencyService
+        getCurrency(CURRENCY_CODE)
+        getAllCurrencies()
+        isValidCurrency('CURRENCY_CODE')
+        isValidDenomination('CURENCY_CODE', 'DENOMINATION');
+
+Repositories
+    transactionRepository
+
+    transactionTypesRepository
+        transactionType{
+
+                DESK_OPEN:{
+                    description:'Open desc for service'
+                    operation:0
+                }
+                LOAD:{
+                    description:'Load cash to desk'
+                    operation:1
+                }
+                DEPOSIT:{
+                    description:'Deposit cash to desk'
+                    operation:1
+                }
+                WITHDRAW:{
+                    description:'Withdraw cash from desk'
+                    operation:-1
+                }
+                RETURN_TO_VAULT:{
+                    description:'Return cash to vault'
+                    operation:-1
+                }
+                DESC_CLOSE:{
+                    description:'Close desc for service'
+                    operation:0
+                }
+
+        }
+
+
+    CashDeskRepository
+    CashOperationRepository
+    CashBalanceRepository
+    CurrencyRepository
+Models
