@@ -42,9 +42,8 @@ text
 
 ### Configuration
 
-- Currency configurations are stored in `src/main/data/currency_denominations.txt`.
+- Currency and denominations configuration is stored in `src/main/data/currency_denominations.txt`.
 - Transactions are logged and stored in `src/main/data/transactions.txt`.
-- Denominations and cashier info ARE NOT loaded dynamically at startup.
 - Transactions(and cashier info) are persisted in src/main/data/transactions.txt. They are not cleaned automatically.. If you need to start fresh you can delete the content of the src/main/data/transactions.txt.
 
 - ## CASHIER BALANCE AND DENOMINATIONS are NOT STORED SEPARATELY. THEY ARE DYNAMICALLY CALCULATED ON DEMAND USING THE TRANSACTIONS LIST... THIS WAY WE AVOID data MISSMATCH dissynchronization , etc. WE DO NOT STORE AND UPDATE BALANCE AND DENOMINATIONS 
