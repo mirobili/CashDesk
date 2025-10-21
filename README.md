@@ -46,7 +46,7 @@ text
 - Transactions are logged and stored in `src/main/data/transactions.txt`.
 - Transactions(and cashier info) are persisted in src/main/data/transactions.txt. They are not cleaned automatically.. If you need to start fresh you can delete the content of the src/main/data/transactions.txt.
 
-- ## CASHIER BALANCE AND DENOMINATIONS are NOT STORED SEPARATELY. THEY ARE DYNAMICALLY CALCULATED ON DEMAND USING THE TRANSACTIONS LIST... THIS WAY WE AVOID data MISSMATCH dissynchronization , etc. WE DO NOT STORE AND UPDATE BALANCE AND DENOMINATIONS 
+- ### CASHIER BALANCE AND DENOMINATIONS are NOT STORED SEPARATELY. THEY ARE DYNAMICALLY CALCULATED ON DEMAND USING THE TRANSACTIONS LIST... This way we avoid data missmatch and dissynchronization, etc. WE DO NOT STORE AND UPDATE CASHIER BALANCE AND DENOMINATIONS as FIELDS, but CALCULATE THEM ON DEMAND USING THE APPEND ONLY LEDGER
   
 - DEPOSIT accepts Denominations and returns Amount -  Deposit.amount is a calculated field from the denominations presented..
 - WITHDRAW accepts Amount and returns Denominations  
