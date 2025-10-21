@@ -55,9 +55,13 @@ text
 
 - The accepted Currencies and Denominations are configured in currency_denominations.txt
 - you can add more currencies to the currency_denominations.txt file (ISO 4217)
+- 
   BGN|1,2,5,10,20,50,100|LOCAL
+
   EUR|1,2,5,10,20,50,100,500|FOREIGN
+
   format:
+
   CurrencyCode|AcceptedDenemonations|LOCAL/FOREIGN(will be used to decide different withdraw strategies ;),, for now it is hardcoded to BGN or not BGN ) 
 
 ### Usage
