@@ -44,12 +44,27 @@ text
 
 - Currency configurations are stored in `src/main/data/currency_denominations.txt`.
 - Transactions are logged and stored in `src/main/data/transactions.txt`.
-- Denominations and cashier info loaded dynamically at startup.
+- Denominations and cashier info ARE NOT loaded dynamically at startup.
+- Transactions(and cashier info) are persisted in src/main/data/transactions.txt. They are not cleaned automatically.. If you need to start fresh you can delete the content of the src/main/data/transactions.txt.
+
+- CASHIER BALANCE AND DENOMINATIONS are NOT STORED SEPARATELY. THEY ARE DYNAMICALLY CALCULATED ON DEMAND USING THE TRANSACTIONS LIST... THIS WAY WE AVOID data MISSMATCH diss sinchronization , etc. WE DO NOT STORE AND UPDATE BALANCE AND DENOMINATIONS 
+  
+- DEPOSIT accepts Denominations and returns Amount -  Deposit.amount is a calculated field from the denominations presented..
+- WITHDRAW accepts Amount and returns Denominations  
+
+
+
+- The accepted Currencies and Denominations are configured in currency_denominations.txt
+- you can add more currencies to the file (ISO 4217)
+  BGN|1,2,5,10,20,50,100|LOCAL
+  EUR|1,2,5,10,20,50,100,500|FOREIGN
+  
+ # CurrencyCode|AcceptedDenemonations|LOCAL/FOREIGN(will be used to decide different withdraw strategies ;),, now it is hardcoded to BGN or not BGN ) 
 
 ### Usage
 
 - The API exposes endpoints to process cash operations.
-- Operations like `LOAD`, `DEPOSIT`, `WITHDRAW`, and `RETURN_TO_VAULT` are supported.
+- Operations like debit :`LOAD`, `DEPOSIT` and credit:`WITHDRAW`, and `RETURN_TO_VAULT`() are supported.
 - Errors are properly handled and returned with descriptive messages.
 
 - Use
@@ -209,7 +224,7 @@ Deposit Response :
 
 ## Troubleshooting
 
-- Ensure all config files (`currency.txt`, `transactions.txt`) have no malformed or empty lines.
+- Ensure all config files (`currency_denominations.txt`, `transactions.txt`) have no malformed or empty lines.
 - Check logs for parsing errors or validation failures.
 - Validate currency and denomination inputs to match configured values.
 
