@@ -47,7 +47,7 @@ text
 - Denominations and cashier info ARE NOT loaded dynamically at startup.
 - Transactions(and cashier info) are persisted in src/main/data/transactions.txt. They are not cleaned automatically.. If you need to start fresh you can delete the content of the src/main/data/transactions.txt.
 
-- # CASHIER BALANCE AND DENOMINATIONS are NOT STORED SEPARATELY. THEY ARE DYNAMICALLY CALCULATED ON DEMAND USING THE TRANSACTIONS LIST... THIS WAY WE AVOID data MISSMATCH diss sinchronization , etc. WE DO NOT STORE AND UPDATE BALANCE AND DENOMINATIONS 
+- ## CASHIER BALANCE AND DENOMINATIONS are NOT STORED SEPARATELY. THEY ARE DYNAMICALLY CALCULATED ON DEMAND USING THE TRANSACTIONS LIST... THIS WAY WE AVOID data MISSMATCH dissynchronization , etc. WE DO NOT STORE AND UPDATE BALANCE AND DENOMINATIONS 
   
 - DEPOSIT accepts Denominations and returns Amount -  Deposit.amount is a calculated field from the denominations presented..
 - WITHDRAW accepts Amount and returns Denominations  
