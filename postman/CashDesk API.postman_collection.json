@@ -1,0 +1,219 @@
+{
+	"info": {
+		"_postman_id": "c41ff0e9-d668-40f1-80fb-bca5bf3fac3f",
+		"name": "CashDesk API",
+		"description": "Postman collection for CashDesk API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49373047",
+		"_collection_link": "https://bassbg-1526374.postman.co/workspace/mm1~185a3a58-5d94-4ce7-85ca-c8287a57dc05/collection/49373047-c41ff0e9-d668-40f1-80fb-bca5bf3fac3f?action=share&source=collection_link&creator=49373047"
+	},
+	"item": [
+		{
+			"name": "Process Deposit",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "FIB-X-AUTH",
+						"value": "f9Uie8nNf112hx8s",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cashierName\": \"MARTINA\",\n    \"type\": \"DEPOSIT\",\n    \"currency\": \"EUR\",\n    \"denominations\": {\n        \n        \"10\":2,\n        \"50\":2,\n        \"100\":2\n      }\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/cash-operation",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cash-operation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Process Load",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "FIB-X-AUTH",
+						"value": "f9Uie8nNf112hx8s",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cashierName\": \"MARTINA\",\n    \"type\": \"LOAD\",\n    \"currency\": \"EUR\",\n    \"denominations\": {\n        \"10\": 100,\n        \"50\": 20\n    }\n} "
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/cash-operation",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cash-operation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Process Withdraw",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "FIB-X-AUTH",
+						"value": "f9Uie8nNf112hx8s",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cashierName\": \"MARTINA\",\n    \"operationType\": \"WITHDRAWAL\",\n    \"currency\": \"BGN\",\n    \"denominations\": {\n        \"10\": 2,\n        \"50\": 1\n    }\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/cash-operation",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cash-operation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Balance",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "FIB-X-AUTH",
+						"value": "f9Uie8nNf112hx8s",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cashier",
+							"value": "MARTINA",
+							"type": "text"
+						},
+						{
+							"key": "dateFrom",
+							"value": "2025-10-20",
+							"type": "text"
+						},
+						{
+							"key": "dateTo",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/cash-balance",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cash-balance"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "f9Uie8nNf112hx8s",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "FIB-X-AUTH",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		}
+	]
+}
