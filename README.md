@@ -155,73 +155,43 @@ Deposit Response :
 }
 
 
-- {{baseUrl}}/api/v1/cash-balance/report - list current denominations bay cashier
-- {
-    "2025-10-21": {
-        "MARTINA": {
-            "EUR": {
-                "amount": 2000,
-                "denominations": {
-                    "50": 20,
-                    "10": 100
-                }
-            },
-            "BGN": {
-                "amount": 1000,
-                "denominations": {
-                    "50": 10,
-                    "10": 50
-                }
-            }
-        },
-        "Martina": {
-            "BGN": {
-                "amount": -100,
-                "denominations": {
-                    "50": -1,
-                    "10": -5
-                }
-            }
-        },
-        "PETER": {
-            "EUR": {
-                "amount": 2000,
-                "denominations": {
-                    "50": 20,
-                    "10": 100
-                }
-            },
-            "BGN": {
-                "amount": 1000,
-                "denominations": {
-                    "50": 10,
-                    "10": 50
-                }
-            }
-        },
-        "LINDA": {
-            "EUR": {
-                "amount": 2000,
-                "denominations": {
-                    "50": 20,
-                    "10": 100
-                }
-            },
-            "BGN": {
-                "amount": 1000,
-                "denominations": {
-                    "50": 10,
-                    "10": 50
-                }
-            }
+- {{baseUrl}}/api/v1/cash-balance - list current denominations bay cashier
+- [
+    {
+        "timestamp": "2025-10-21T10:51:03.1791008",
+        "cashier": "MARTINA",
+        "currency": "BGN",
+        "amount": 1000,
+        "denominations": {
+            "50": 10,
+            "10": 50
+        }
+    },
+    {
+        "timestamp": "2025-10-21T10:54:41.3034785",
+        "cashier": "MARTINA",
+        "currency": "EUR",
+        "amount": 2000,
+        "denominations": {
+            "50": 20,
+            "10": 100
+        }
+    },
+    {
+        "timestamp": "2025-10-21T12:07:13.8424772",
+        "cashier": "MARTINA",
+        "currency": "EUR",
+        "amount": 1800,
+        "denominations": {
+            "50": 16,
+            "10": 100
         }
     }
-}
-- {{baseUrl}}/api/v1/cash-balance/list - list all the transactions
+]
 
 # TODO :
-  - some cleanup
-  - reports improvement
+  - some cleanup (Done)
+  - reports improvement (Done)
 
 ### Logging
 
