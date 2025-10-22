@@ -159,180 +159,86 @@ public class CashOperationServiceImpl implements CashOperationService {
         return availableDenominations;
     }
 
-//    public Map<Integer, Integer> getAvailableDenominationsForCashier(String cashierName, Currency currency) throws IOException {
-//
-////        service = new TransactionServiceImpl(new TransactionFileRepository("src/main/data/transactions.txt"));
-//        TransactionFileRepository repository = new TransactionFileRepository("src/main/data/transactions.txt");
-//        List<Transaction> all = repository.findAll();
-//
-//
-//        logger.info("Available denominations for cashier " + cashierName + ": " + currency);
-//
-//       // List<Transaction> all = service.getAllTransactions();
-//        Map<Integer, Integer> availableDenominations = new HashMap<>();
-//
-//        for (Transaction t : all) {
-//            if (!t.getCashierName().equalsIgnoreCase(cashierName)) {
-//                continue;
-//            }
-//            if (!t.getCurrency().equals(currency)) {
-//                continue;
-//            }
-//
-//            // For deposits add denominations count, for withdrawals subtract count
-//            int multiplier = (t.getType() == Transaction.TransactionType.DEPOSIT) ? 1 : -1;
-//
-//            t.getDenominations().forEach((deno, count) ->
-//                    availableDenominations.merge(deno, multiplier * count, Integer::sum)
-//            );
-//        }
-//
-//        // Remove denominations with zero or negative counts (not available)
-//        availableDenominations.entrySet().removeIf(e -> e.getValue() == null || e.getValue() <= 0);
-//
-//        return availableDenominations;
-//    }
-//    public Map<Integer, Integer> getCashierDenominations(String cashierName, Currency currency, int amount) throws IllegalArgumentException, IOException {
-//
-//        logger.info("Available denominations for cashier " + " getCashierDenominations" +  cashierName + "," + currency+ ", " + amount);
-//
-//        Map<Integer, Integer> availableDenos = getAvailableDenominationsForCashier(cashierName, currency);
-//
-//        logger.info("Available denominations for cashier " + cashierName + ": " + availableDenos);
-//
-//
-//        // Extract denominations and sort descending (largest first)
-//        List<Integer> denomOrder = new ArrayList<>(availableDenos.keySet());
-//        Collections.sort(denomOrder, Collections.reverseOrder());
-//
-//        Map<Integer, Integer> result = new LinkedHashMap<>();
-//
-//        for (int denom : denomOrder) {
-//            int needed = amount / denom;
-//            int available = availableDenos.getOrDefault(denom, 0);
-//            int count = Math.min(needed, available);
-//
-//            if (count > 0) {
-//                result.put(denom, count);
-//                amount -= denom * count;
-//            }
-//        }
-//
-//        if (amount != 0) {
-//            throw new IllegalArgumentException(
-//                    "Cannot fulfill amount with available denominations for cashier " + cashierName);
-//        }
-//
-//        return result;
-//    }
 
-//    public Map<Integer, Integer> getCashierDenominations_neww(String cashierName, Currency currency, int amount) throws IllegalArgumentException, IOException {
-//        Map<Integer, Integer> availableDenos = getAvailableDenominationsForCashier(cashierName, currency);
-//
-//        if (currency != Currency.BGN) {
-//            // General greedy algorithm for other currencies
-//            List<Integer> denomOrder = new ArrayList<>(availableDenos.keySet());
-//            Collections.sort(denomOrder, Collections.reverseOrder());
-//
-//            Map<Integer, Integer> result = new LinkedHashMap<>();
-//            int remaining = amount;
-//
-//            for (int denom : denomOrder) {
-//                int needed = remaining / denom;
-//                int available = availableDenos.getOrDefault(denom, 0);
-//                int count = Math.min(needed, available);
-//                if (count > 0) {
-//                    result.put(denom, count);
-//                    remaining -= denom * count;
-//                }
-//            }
-//            if (remaining != 0) throw new IllegalArgumentException("Cannot fulfill amount with available denominations for cashier " + cashierName);
-//            return result;
-//        }
-//
-//        // Custom logic for BGN
-//        int remaining = amount;
-//        Map<Integer, Integer> result = new LinkedHashMap<>();
-//        int max50 = Math.min(remaining / 50, availableDenos.getOrDefault(50, 0));
-//
-//        // Try combinations starting from max number of 50s down to zero
-//        for (int fifties = max50; fifties >= 0; fifties--) {
-//            int remAfter50 = remaining - fifties * 50;
-//            int twentiesAvail = availableDenos.getOrDefault(20, 0);
-//            int tensAvail = availableDenos.getOrDefault(10, 0);
-//
-//            for (int twenties = 0; twenties <= twentiesAvail; twenties++) {
-//                int remAfter20 = remAfter50 - twenties * 20;
-//                if (remAfter20 < 0) break;
-//
-//                if (remAfter20 % 10 == 0) {
-//                    int tensNeeded = remAfter20 / 10;
-//                    if (tensNeeded <= tensAvail) {
-//                        // success
-//                        result.clear();
-//                        if (fifties > 0) result.put(50, fifties);
-//                        if (twenties > 0) result.put(20, twenties);
-//                        if (tensNeeded > 0) result.put(10, tensNeeded);
-//                        return result;
-//                    }
-//                }
-//            }
-//        }
-//
-//        throw new IllegalArgumentException("Cannot fulfill amount with available denominations for cashier " + cashierName);
-//    }
 
-    public Map<Integer, Integer> getCashierDenominations(String cashierName, Currency currency, int amount) throws IllegalArgumentException, IOException {
-        Map<Integer, Integer> availableDenos = getAvailableDenominationsForCashier(cashierName, currency);
+
+    public  Map<Integer, Integer> getCashierDenominations(String cashier , Currency currency, int amount) throws IllegalArgumentException, IOException {
+        Map<Integer, Integer> availableDenos = getAvailableDenominationsForCashier(cashier, currency);
 
         // Sort denominations descending (largest first)
         List<Integer> denomOrder = new ArrayList<>(availableDenos.keySet());
-        Collections.sort(denomOrder, Collections.reverseOrder());
+        denomOrder.sort(Collections.reverseOrder());
 
         Map<Integer, Integer> result = new LinkedHashMap<>();
         int remaining = amount;
 
-        if (currency == Currency.BGN) {
-            // Special logic for BGN: try largest bill then smaller notes per your requirement
-            // For example, try one 50, then fill rest with 10s (or a mix)
-            int count50 = Math.min(1, availableDenos.getOrDefault(50, 0));
-            if (count50 > 0 && remaining >= 50) {
-                result.put(50, count50);
-                remaining -= 50 * count50;
-            }
+        // First greedy fill using largest denominations
+        for (int denom : denomOrder) {
+            int countNeeded = remaining / denom;
+            int countAvailable = availableDenos.getOrDefault(denom, 0);
+            int countToUse = Math.min(countNeeded, countAvailable);
 
-            // For the rest, greedily use 10s and then smaller if necessary
-            int count10 = Math.min(remaining / 10, availableDenos.getOrDefault(10, 0));
-            if (count10 > 0) {
-                result.put(10, count10);
-                remaining -= 10 * count10;
-            }
-
-            // You can extend this with 20 BGN bills or other denominations as needed
-            if (remaining > 0 && availableDenos.containsKey(20)) {
-                int count20 = Math.min(remaining / 20, availableDenos.get(20));
-                if (count20 > 0) {
-                    result.put(20, count20);
-                    remaining -= 20 * count20;
-                }
-            }
-        } else {
-            // General case for other currencies: greedy approach largest-to-smallest
-            for (int denom : denomOrder) {
-                int needed = remaining / denom;
-                int available = availableDenos.getOrDefault(denom, 0);
-                int count = Math.min(needed, available);
-
-                if (count > 0) {
-                    result.put(denom, count);
-                    remaining -= denom * count;
-                }
+            if (countToUse > 0) {
+                result.put(denom, countToUse);
+                remaining -= denom * countToUse;
             }
         }
 
         if (remaining != 0) {
-            throw new IllegalArgumentException("Cannot fulfill amount with available denominations for cashier " + cashierName);
+            throw new IllegalArgumentException("Cannot fulfill amount with available denominations for cashier " + cashier);
         }
+
+        // For BGN, attempt to replace one of the highest denomination bills
+        if (currency == Currency.BGN && !denomOrder.isEmpty()) {
+            int highestDenom = denomOrder.get(0);
+            int highestCount = result.getOrDefault(highestDenom, 0);
+
+            // Only try if we have at least 2 or more of the highest bills (can adjust threshold)
+            if (highestCount >= 2) {
+                // Try to replace one highest bill by smaller denominations summing to same value
+                int denomValue = highestDenom;
+                Map<Integer, Integer> smallerDenos = new LinkedHashMap<>();
+                int valueLeft = denomValue;
+
+                // Start from the next smaller denomination(s)
+                for (int i = 1; i < denomOrder.size(); i++) {
+                    int denom = denomOrder.get(i);
+                    int avail = availableDenos.getOrDefault(denom, 0);
+                    int used = result.getOrDefault(denom, 0);
+                    int free = avail - used;
+
+                    if (free <= 0) continue;
+
+                    int needed = valueLeft / denom;
+                    if (needed > free) needed = free;
+
+                    if (needed > 0) {
+                        smallerDenos.put(denom, needed);
+                        valueLeft -= denom * needed;
+                        if (valueLeft == 0) break;
+                    }
+                }
+
+                // If exact replacement found, apply it
+                if (valueLeft == 0) {
+                    // Remove one highest bill
+                    result.put(highestDenom, highestCount - 1);
+                    // Add smaller denominations
+                    for (Map.Entry<Integer, Integer> entry : smallerDenos.entrySet()) {
+                        int denom = entry.getKey();
+                        int count = entry.getValue();
+                        result.put(denom, result.getOrDefault(denom, 0) + count);
+                    }
+                    // Remove highest denomination if count zero
+                    if (result.get(highestDenom) == 0) {
+                        result.remove(highestDenom);
+                    }
+                }
+            }
+        }
+
+        // Clean up zero counts
+        result.entrySet().removeIf(e -> e.getValue() == 0);
 
         return result;
     }
