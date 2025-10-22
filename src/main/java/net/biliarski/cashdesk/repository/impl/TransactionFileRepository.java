@@ -3,6 +3,8 @@ package net.biliarski.cashdesk.repository.impl;
 import net.biliarski.cashdesk.model.Currency;
 import net.biliarski.cashdesk.model.Transaction;
 import net.biliarski.cashdesk.repository.TransactionRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,12 +27,14 @@ import java.nio.file.StandardOpenOption;
 //import java.util.List;
 //import java.util.stream.Collectors;
 
+@Repository
+
 public class TransactionFileRepository implements TransactionRepository {
 
     private final Path filePath;
     private final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
-    public TransactionFileRepository(String filename) {
+    public TransactionFileRepository(@Value("${transactions.file.path}") String filename) {
         this.filePath = Paths.get(filename);
     }
 

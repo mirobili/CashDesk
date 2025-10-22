@@ -13,11 +13,6 @@ public class Transaction {
     private Currency currency;
     private TransactionType type;
     private Map<Integer, Integer> denominations;
-//
-//    public enum TransactionType {
-//        DEPOSIT,
-//        WITHDRAW
-//    }
 
 
     public enum TransactionType {
@@ -72,21 +67,7 @@ public class Transaction {
         this.type = type;
         this.denominations = Map.copyOf(denominations);
     }
-//    public Transaction(String cashierName, int amount, Currency currency,
-//                       TransactionType type, Map<Integer, Integer> denominations) {
-//        this.id = UUID.randomUUID().toString();
-//        this.timestamp = LocalDateTime.now();
-//        this.cashierName = cashierName;
-//        this.amount = amount;
-//        this.currency = currency;
-//        this.type = type;
-//        this.denominations = Map.copyOf(denominations);
-//    }
 
-//    public enum TransactionType {
-//        DEPOSIT,
-//        WITHDRAWAL
-//    }
     // Getters and Setters
     public String getId() {
         return id;

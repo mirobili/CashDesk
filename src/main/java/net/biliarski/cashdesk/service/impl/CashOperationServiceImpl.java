@@ -5,17 +5,15 @@ import net.biliarski.cashdesk.dto.CashOperationRequest;
 import net.biliarski.cashdesk.dto.CashOperationResponse;
 import net.biliarski.cashdesk.model.Currency;
 import net.biliarski.cashdesk.model.Transaction;
-import net.biliarski.cashdesk.model.Transaction.TransactionType;
-import net.biliarski.cashdesk.repository.TransactionRepository;
 import net.biliarski.cashdesk.repository.impl.TransactionFileRepository;
 import net.biliarski.cashdesk.service.CashOperationService;
 import net.biliarski.cashdesk.service.TransactionService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -31,16 +29,22 @@ import org.slf4j.LoggerFactory;
 public class CashOperationServiceImpl implements CashOperationService {
 
 
-    private TransactionService service;
+    private TransactionService transactionService;
     private static final Logger logger = LoggerFactory.getLogger(CashOperationController.class);
     private Map<String, Set<Integer>> currencyDenominationsMap = new HashMap<>();
+
+    @Value("${denominations.file.path}")
+    private String denominationsFilePath;
+
+    public CashOperationServiceImpl(TransactionService service) {
+        this.transactionService = service;
+    }
 
     @Override
     public CashOperationResponse processCashOperation(CashOperationRequest request) throws IOException {
 
 
-        service = new TransactionServiceImpl(new TransactionFileRepository("src/main/data/transactions.txt"));
-        loadCurrencyDenominations(  "src/main/data/currency_denominations.txt");
+        loadCurrencyDenominations(denominationsFilePath);
         Map<Integer, Integer> denos = request.getDenominations();
 
         int amount = 0;
@@ -86,7 +90,7 @@ public class CashOperationServiceImpl implements CashOperationService {
         Transaction tx = new Transaction(request.getCashierName(), amount, request.getCurrency(),
                 request.getType(), denos );
 
-        service.createTransaction(tx);
+        transactionService.createTransaction(tx);
 
         // Create and populate response
         CashOperationResponse response = new CashOperationResponse();
@@ -120,19 +124,21 @@ public class CashOperationServiceImpl implements CashOperationService {
 
           //  int multiplier = (t.getType() == Transaction.TransactionType.DEPOSIT) ? 1 : -1;
 
+//            int multiplier;
+//            switch (t.getType()) {
+//                case DEPOSIT:
+//                case LOAD:
+//                    multiplier = 1;
+//                    break;
+//                case WITHDRAW:
+//                case RETURN_TO_VAULT:
+//                    multiplier = -1;
+//                    break;
+//                default:
+//                    multiplier = 0; // or throw exception if unknown type
+//            }
             int multiplier;
-            switch (t.getType()) {
-                case DEPOSIT:
-                case LOAD:
-                    multiplier = 1;
-                    break;
-                case WITHDRAW:
-                case RETURN_TO_VAULT:
-                    multiplier = -1;
-                    break;
-                default:
-                    multiplier = 0; // or throw exception if unknown type
-            }
+            multiplier = t.getType().getOperation();
 
 
             t.getDenominations().forEach((deno, count) -> {

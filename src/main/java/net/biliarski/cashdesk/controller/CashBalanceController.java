@@ -2,12 +2,13 @@ package net.biliarski.cashdesk.controller;
 
 import net.biliarski.cashdesk.dto.BalanceResponse;
 import net.biliarski.cashdesk.model.Transaction;
-import net.biliarski.cashdesk.repository.impl.TransactionFileRepository;
 import net.biliarski.cashdesk.service.CashBalanceService;
+
 import net.biliarski.cashdesk.service.TransactionService;
-import net.biliarski.cashdesk.service.impl.TransactionServiceImpl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -28,69 +28,45 @@ public class CashBalanceController {
     @Value("${app.api.key}")
     private String configuredApiKey;
 
-    @Value("${transactions.file.path}")
-    private String transactionsFilePath;
-
     private static final Logger logger = LoggerFactory.getLogger(CashOperationController.class);
+    private TransactionService  transactionService;
 
 
-    public CashBalanceController(CashBalanceService cashBalanceService) {
+    @Autowired
+    public CashBalanceController(CashBalanceService cashBalanceService, TransactionService  transactionService) {
         this.cashBalanceService = cashBalanceService;
+        this.transactionService = transactionService;
+
     }
-    
-    @GetMapping(produces = "application/json")
-    public ResponseEntity<BalanceResponse> getCashierBalance(
+
+    @GetMapping(value = {"/",""}, produces = "application/json")
+    public ResponseEntity<?> getBalanceReport(
             @RequestHeader("FIB-X-AUTH") String apiKey,
-            @RequestParam String cashierName) {
-        
-        // Validate API key
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
+            @RequestParam(required = false) String cashier
+    ) throws IOException {
+
+        logger.info("getBalanceReport: cashier=" + cashier + ", dateFrom=" + dateFrom + ", dateTo=" + dateTo);
 
         if (!configuredApiKey.equals(apiKey)) {
-            return ResponseEntity.status(401).build();
+             return ResponseEntity.status(401).build();
         }
-        
-        // Get balance information from the service
-        BalanceResponse response = cashBalanceService.getCashierBalance(cashierName);
-        
-        return ResponseEntity.ok(response);
+
+        return ResponseEntity.ok(cashBalanceService.getBalanceReport(cashier, dateFrom , dateTo ));
     }
 
-
-    @GetMapping(value = "/list", produces = "application/json")
-    public ResponseEntity<List<Transaction>> getTransactionsList2(
-             @RequestHeader("FIB-X-AUTH") String apiKey
-            //   @RequestParam String cashierName
+    @GetMapping(value = "/transactionsList", produces = "application/json")
+    public ResponseEntity<List<Transaction>> getTransactionsList(
+            @RequestHeader("FIB-X-AUTH") String apiKey
     ) throws IOException
     {
         if (!configuredApiKey.equals(apiKey)) {
             return ResponseEntity.status(401).build();
         }
 
-
-        TransactionService transactionService = new TransactionServiceImpl(new TransactionFileRepository(transactionsFilePath));
-        List<Transaction> transactions = transactionService.getAllTransactions();
+        List<Transaction> transactions = transactionService.getAll();
         return ResponseEntity.ok(transactions);
     }
 
-
-    @GetMapping(value = {"/CashBalanceReport", "/report", ""}, produces = "application/json")
-    public ResponseEntity<?> cashBalanceReport(
-            @RequestHeader("FIB-X-AUTH") String apiKey,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
-            @RequestParam(required = false) String cashierName
-            ) throws IOException {
-
-          logger.info("Received CashBalanceReport request with apiKey: {}", apiKey);
-//        logger.info("Received CashBalanceReport configuredApiKeyKEY: {}", configuredApiKey);
-
-        if (!configuredApiKey.equals(apiKey)) {
-            return ResponseEntity.status(401).build();
-        }
-
-        TransactionService transactionService = new TransactionServiceImpl(new TransactionFileRepository(transactionsFilePath));
-        Map<String, Map<String, Map<String, TransactionServiceImpl.CashierDailyBalance>>> report =  transactionService.getCashBalanceReport(dateFrom, dateTo, cashierName);
-
-        return ResponseEntity.ok(report);
-    }
 }

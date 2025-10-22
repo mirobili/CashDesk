@@ -34,18 +34,13 @@ public class CashOperationController {
             @RequestBody CashOperationRequest request) throws IOException {
 
 
-        logger.info("Received CashBalanceReport request with apiKey: {}", apiKey);
-        logger.info("Received CashBalanceReport configuredApiKeyKEY: {}", configuredApiKey);
-
-        //  logger.info("CashOperationRequest",request.toString());
         logger.info("Received CashOperationRequest: {}", request);
         // Validate API key
-//        if (!"f9Uie8nNf112hx8s".equals(apiKey)) {
+
         if (!configuredApiKey.equals(apiKey)) {
             logger.warn("Unauthorized request with invalid API key");
             return ResponseEntity.status(401).build();
         }
-
 
         try {
             CashOperationResponse response = cashOperationService.processCashOperation(request);
