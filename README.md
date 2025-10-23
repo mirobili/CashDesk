@@ -70,9 +70,8 @@ LOCAL (will be used to decide different withdraw strategies ;)
 
 Transactions are stored in a ```src/main/data/transactions.txt``` flat file (configurable in application.properties)
 
-
 ```csv
-TransactionId|timestamp|CASHIER|AMOUNT|CURRENCY|DENOMINATIONS
+TransactionId|timestamp|CASHIER|AMOUNT|CURRENCY|OPERATION|DENOMINATIONS
 ```
 
 ```csv
