@@ -102,7 +102,7 @@ ff347285-a8e6-4c04-8a01-1878c48de9bd|2025-10-22T23:21:17.7129626|MARTINA|100|BGN
 ```json
 
 {
-    "cashierName": "MARTINA",
+    "cashier": "MARTINA",
     "type": "LOAD",
     "currency": "EUR",
     "denominations": {
@@ -115,7 +115,7 @@ ff347285-a8e6-4c04-8a01-1878c48de9bd|2025-10-22T23:21:17.7129626|MARTINA|100|BGN
  ``` {{baseUrl}}/api/v1/cash-operation```
 ```json
   {
-    "cashierName": "MARTINA",
+    "cashier": "MARTINA",
     "type": "LOAD",
     "currency": "BGN",
     "denominations": {
@@ -130,7 +130,7 @@ ff347285-a8e6-4c04-8a01-1878c48de9bd|2025-10-22T23:21:17.7129626|MARTINA|100|BGN
  ``` {{baseUrl}}/api/v1/cash-operation```
 ```json
 {
-    "cashierName": "MARTINA",
+    "cashier": "MARTINA",
     "type": "DEPOSIT",
     "currency": "EUR",
     "denominations": {
@@ -146,7 +146,7 @@ Deposit Response :
 ```json
 {
     "transactionId": "b2011bf7-d598-4876-8ae7-b2a11413593d",
-    "cashierName": "MARTINA",
+    "cashier": "MARTINA",
     "amount": 160,
     "currency": "EUR",
     "type": "DEPOSIT",
@@ -168,7 +168,7 @@ Deposit Response :
 
 ```json
 {
-    "cashierName": "Martina",
+    "cashier": "Martina",
     "type": "WITHDRAW",
     "currency": "BGN",
     "amount":100
@@ -179,7 +179,7 @@ Deposit Response :
 ```json 
 {
     "transactionId": "44bdc4eb-06eb-48c6-ae09-44a8024a2f22",
-    "cashierName": "Martina",
+    "cashier": "Martina",
     "amount": 100,
     "currency": "BGN",
     "type": "WITHDRAW",
