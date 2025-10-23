@@ -1,15 +1,283 @@
-C:\Users\Home>curl -X GET "http://localhost:8080/api/v1/cash-balance?cashierName=MARTINA" -H "FIB-X-AUTH: f9Uie8nNf112hx8s"
-{"cashierName":"MARTINA","balances":{"EUR":2000,"BGN":1500},"denominations":{"EUR":{"50":20,"100":10},"BGN":{"50":20,"10":50}},"timestamp":"2025-10-19T15:15:43.2711411"}
 
 
-miro@srv1:~/test/composer-projects/qr2$ curl -X GET "http://192.168.0.103:8080/api/v1/cash-bal
-ance?cashierName=MARTINA" -H "FIB-X-AUTH: f9Uie8nNf112hx8s"
-{"cashierName":"MARTINA","balances":{"EUR":2000,"BGN":1500},"denominations":{"EUR":{"50":20,"100":10},"BGN":{"50":20,"10":50}},"timestamp":"2025-10-19T15:16:43.7017968"}miro@srv1:
+miro@srv1:~/test/SpringProjects/CashDesk$ curl -X GET "http://192.168.0.103:8080/api/v1/cash-balance" -H "FIB-X-AUTH: f9Uie8nNf112hx8s" |jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  3441    0  3441    0     0  53765      0 --:--:-- --:--:-- --:--:-- 53765
+[
+  {
+    "timestamp": "2025-10-21T10:51:03.1791008",
+    "cashier": "MARTINA",
+    "currency": "BGN",
+    "amount": 1000,
+    "denominations": {
+      "50": 10,
+      "10": 50
+    }
+  },
+  {
+    "timestamp": "2025-10-21T10:51:11.8967321",
+    "cashier": "PETER",
+    "currency": "BGN",
+    "amount": 1000,
+    "denominations": {
+      "50": 10,
+      "10": 50
+    }
+  },
+  {
+    "timestamp": "2025-10-21T10:51:32.0974839",
+    "cashier": "LINDA",
+    "currency": "BGN",
+    "amount": 1000,
+    "denominations": {
+      "50": 10,
+      "10": 50
+    }
+  },
+  {
+    "timestamp": "2025-10-21T10:54:23.9462059",
+    "cashier": "LINDA",
+    "currency": "EUR",
+    "amount": 2000,
+    "denominations": {
+      "50": 20,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-21T10:54:41.3034785",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 2000,
+    "denominations": {
+      "50": 20,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-21T10:54:46.9096324",
+    "cashier": "PETER",
+    "currency": "EUR",
+    "amount": 2000,
+    "denominations": {
+      "50": 20,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-21T12:07:13.8424772",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 1800,
+    "denominations": {
+      "50": 16,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:07:25.8101979",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 1600,
+    "denominations": {
+      "50": 12,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:07:43.3688495",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 1400,
+    "denominations": {
+      "50": 8,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:08:03.3173174",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 1200,
+    "denominations": {
+      "50": 4,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:08:13.7498634",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 1000,
+    "denominations": {
+      "50": 0,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:08:16.1008812",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 800,
+    "denominations": {
+      "50": 0,
+      "10": 80
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:08:20.2273191",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 600,
+    "denominations": {
+      "50": 0,
+      "10": 60
+    }
+  },
+  {
+    "timestamp": "2025-10-22T18:31:35.1543971",
+    "cashier": "PETER",
+    "currency": "EUR",
+    "amount": 1800,
+    "denominations": {
+      "50": 16,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-22T19:02:40.1903248",
+    "cashier": "PETER",
+    "currency": "BGN",
+    "amount": 900,
+    "denominations": {
+      "50": 9,
+      "10": 45
+    }
+  },
+
+miro@srv1:~/test/SpringProjects/CashDesk$ curl -X GET "http://192.168.0.103:8080/api/v1/cash-balance?cashier=MARTINA" -H "FIB-X-AUTH: f9Uie8nNf112hx
+8s" |jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1430    0  1430    0     0  95333      0 --:--:-- --:--:-- --:--:-- 95333
+[
+  {
+    "timestamp": "2025-10-21T10:51:03.1791008",
+    "cashier": "MARTINA",
+    "currency": "BGN",
+    "amount": 1000,
+    "denominations": {
+      "50": 10,
+      "10": 50
+    }
+  },
+  {
+    "timestamp": "2025-10-21T10:54:41.3034785",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 2000,
+    "denominations": {
+      "50": 20,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-21T12:07:13.8424772",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 1800,
+    "denominations": {
+      "50": 16,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:07:25.8101979",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 1600,
+    "denominations": {
+      "50": 12,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:07:43.3688495",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 1400,
+    "denominations": {
+      "50": 8,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:08:03.3173174",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 1200,
+    "denominations": {
+      "50": 4,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:08:13.7498634",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 1000,
+    "denominations": {
+      "50": 0,
+      "10": 100
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:08:16.1008812",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 800,
+    "denominations": {
+      "50": 0,
+      "10": 80
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:08:20.2273191",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 600,
+    "denominations": {
+      "50": 0,
+      "10": 60
+    }
+  },
+  {
+    "timestamp": "2025-10-22T20:23:10.1660669",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 920,
+    "denominations": {
+      "50": 2,
+      "10": 62,
+      "100": 2
+    }
+  },
+  {
+    "timestamp": "2025-10-22T20:31:39.780522",
+    "cashier": "MARTINA",
+    "currency": "EUR",
+    "amount": 900,
+    "denominations": {
+      "50": 2,
+      "10": 60,
+      "100": 2
+    }
+  }
+]
 
 
-
-
-curl -X POST "http://localhost:8080/api/v1/cash-operations" \
+miro@srv1:~/test/SpringProjects/CashDesk$ curl -X POST "http://localhost:8080/api/v1/cash-operation" \
   -H "Content-Type: application/json" \
   -H "FIB-X-AUTH: f9Uie8nNf112hx8s" \
   -d '{
@@ -21,4 +289,69 @@ curl -X POST "http://localhost:8080/api/v1/cash-operations" \
       "50": 10,
       "20": 25
     }
+
   }'
+
+
+
+
+
+miro@srv1:~/test/SpringProjects/CashDesk$ curl -X POST "http://192.168.0.103:8080/api/v1/cash-operation"   -H "Content-Type: application/json"   -H "FIB-X-AUTH: f9Uie8nNf112hx8s"   -d '{
+    "cashierName": "MARTINA",
+    "amount": 1000,
+    "currency": "BGN",
+    "type": "DEPOSIT",
+    "denominations": {
+      "50": 10,
+      "20": 25
+    }
+  }' |jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   403    0   233  100   170   9320   6800 --:--:-- --:--:-- --:--:-- 16120
+{
+  "transactionId": "cb1bf2c3-ccd5-4e36-b610-b23481bf2e4c",
+  "cashierName": "MARTINA",
+  "amount": 1000,
+  "currency": "BGN",
+  "type": "DEPOSIT",
+  "timestamp": "2025-10-22T22:13:02.824651",
+  "denominations": {
+    "50": 10,
+    "20": 25
+  },
+  "success": true,
+  "message": null
+}
+
+/**************************************/
+
+
+
+
+miro@srv1:~/test/SpringProjects/CashDesk$ curl -X POST "http://192.168.0.103:8080/api/v1/cash-operation"   -H "Content-Type: application/json"   -H "FIB-X-AUTH: f9Uie8nNf112hx8s"   -d '{
+    "cashierName": "MARTINA",
+    "amount": 1000,
+    "currency": "BGN",
+    "type": "WITHDRAW"
+  }' |jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   403    0   233  100   170   9320   6800 --:--:-- --:--:-- --:--:-- 16120
+{
+  "transactionId": "cb1bf2c3-ccd5-4e36-b610-b23481bf2e4c",
+  "cashierName": "MARTINA",
+  "amount": 1000,
+  "currency": "BGN",
+  "type": "DEPOSIT",
+  "timestamp": "2025-10-22T22:13:02.824651",
+  "denominations": {
+    "50": 10,
+    "20": 25
+  },
+  "success": true,
+  "message": null
+}
+
+
+
